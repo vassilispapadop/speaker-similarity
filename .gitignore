@@ -2,3 +2,4 @@
 saved_models/audio_classification.hdf5
 *.zip
 *.wav
+*.m4a
