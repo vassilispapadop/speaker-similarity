@@ -1,6 +1,7 @@
 # routes of website besides auth page
 from flask import Blueprint, render_template, request, flash, jsonify
-from .process_audio import download_audio, create_segments
+from .process_audio import download_audio, create_segments, predict
+
 import json
 
 views = Blueprint('views', __name__)
@@ -13,6 +14,7 @@ def home():
         file = download_audio(url)
         print(f'Downloaded file: {file}')
         segments = create_segments(path = file, segment_duration = 5)
-        return render_template("segments.html", title = file, segments=segments)
+        pred_dict = predict(segments)
+        return render_template("segments.html", title = file,  pred_dict=pred_dict)
     else:    
         return render_template("home.html")

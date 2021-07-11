@@ -3,9 +3,9 @@
     <h1 align="center">Clip Segments</h1>
 
     <ul class="list-group list-group-flush" id="audio_segments">
-      {% for segment in segments %}
+      {% for key, value in pred_dict.items() %}
       <li class="list-group-item">
-        {{ segment }}
+       {{ key }} predictions -  {{value}}
       </li>
       {% endfor %}
     </ul>
