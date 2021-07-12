@@ -6,12 +6,16 @@
         <th>Segment</th>
         <th>Probabilities</th>
         <th>Speaker</th>
+        <th>Listen</th>
       </tr>
       {% for key, value in pred_dict.items() %}
       <tr>
          <td class="c2">{{ key }}</td>
          <td class="c3">{{value.preds}}</td>
          <td class="c4"><SPAN>{{value.speaker}}</SPAN></td>
+         <td class="c5"><button type="button" class="fas fa-play ml-2" onClick="playSound('{{ key }}')">
+          <span aria-hidden="true">&times;</span>
+        </button></td>
       </tr>
       {% endfor %}
       </table>
