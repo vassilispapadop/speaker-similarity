@@ -31,8 +31,8 @@ def create_segments(path, segment_duration):
     cmd_string = f'ffmpeg -i "{path}" -f segment -segment_time {segment_duration} -c copy app/website/downloads/parts/output%09d.wav'
     subprocess.call(cmd_string, shell=True)
 
-    #return list with parts names
-    return glob.glob('app/website/downloads/parts/*.wav')
+    #return list with parts names, order by creation/modification time
+    return sorted(glob.glob('app/website/downloads/parts/*.wav'), key=os.path.getmtime)
 
 
 ydl_opts = {

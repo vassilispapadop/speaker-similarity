@@ -11,9 +11,13 @@ def home():
     segments = []
     if request.method == 'POST':
         url = request.form.get('note')          
+        if not url:
+            return render_template("home.html")
+
         file = download_audio(url)
         print(f'Downloaded file: {file}')
-        segments = create_segments(path = file, segment_duration = 5)
+        segments = create_segments(path = file, segment_duration = 10)
+
         pred_dict = predict(segments)
         return render_template("segments.html", title = file,  pred_dict=pred_dict)
     else:    
