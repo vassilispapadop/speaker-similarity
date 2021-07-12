@@ -1,12 +1,18 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
     %}
     <h1 align="center">Clip Segments</h1>
-
-    <ul class="list-group list-group-flush" id="audio_segments">
+    <table align="center">
+      <tr>
+        <th>Segment</th>
+        <th>Probabilities</th>
+        <th>Speaker</th>
+      </tr>
       {% for key, value in pred_dict.items() %}
-      <li class="list-group-item">
-       {{ key }} predictions -  {{value}}
-      </li>
+      <tr>
+         <td class="c2">{{ key }}</td>
+         <td class="c3">{{value.preds}}</td>
+         <td class="c4"><SPAN>{{value.speaker}}</SPAN></td>
+      </tr>
       {% endfor %}
-    </ul>
+      </table>
     {% endblock %}
