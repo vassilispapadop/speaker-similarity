@@ -7,7 +7,7 @@ import numpy as np
 import sys
 import glob
 import os
-from . import nn_model
+from . import nn_model, classes
 
 
 # return the newly created .wav file in the directory
@@ -76,7 +76,7 @@ def predict(clips):
         X_tmp = np.expand_dims(X_tmp, axis=0)
         print(X_tmp.shape)
         y_pred = nn_model.predict(X_tmp)
-        pred_dict[clip] = y_pred
+        pred_dict[clip] = {'preds': y_pred, 'speaker': classes[np.argmax(y_pred, axis=1)]}
 
     return pred_dict
     
