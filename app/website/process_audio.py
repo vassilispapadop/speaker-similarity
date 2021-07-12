@@ -8,6 +8,7 @@ import sys
 import glob
 import os
 from . import nn_model, classes
+from .extract_features import extract_mfcc
 
 
 # return the newly created .wav file in the directory
@@ -57,21 +58,21 @@ def download_audio(file='http://www.youtube.com/watch?v=BaW_jenozKc'):
     return get_name()
 
 
-def extract_mfcc(row, nr_mfcc):
-    signal ,sr = librosa.load(row)
-    mfcc_feature = librosa.feature.mfcc(signal, n_mfcc=nr_mfcc, sr=sr, hop_length=256)
-    delta_feature = librosa.feature.delta(mfcc_feature)
+# def extract_mfcc(row, nr_mfcc):
+#     signal ,sr = librosa.load(row)
+#     mfcc_feature = librosa.feature.mfcc(signal, n_mfcc=nr_mfcc, sr=sr, hop_length=256)
+#     delta_feature = librosa.feature.delta(mfcc_feature)
     
-    mfcc_feature = np.mean(mfcc_feature.T,axis=0)
-    delta_feature = np.mean(delta_feature.T, axis=0)
+#     mfcc_feature = np.mean(mfcc_feature.T,axis=0)
+#     delta_feature = np.mean(delta_feature.T, axis=0)
 
-    return pd.Series([mfcc_feature, delta_feature])
+#     return pd.Series([mfcc_feature, delta_feature])
 
 def predict(clips):
     pred_dict = {}
     for clip in clips:
         tmp = pd.DataFrame()
-        tmp[['mfcc', 'delta']] = extract_mfcc(clip,20)
+        tmp[['mfcc', 'delta']] = extract_mfcc(clip, 20)
         X_tmp = np.hstack((tmp['mfcc'].to_list(),tmp['delta'].to_list()))
         X_tmp = np.expand_dims(X_tmp, axis=0)
         print(X_tmp.shape)
