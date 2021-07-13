@@ -9,7 +9,10 @@ import sys
 import glob
 import os
 from . import nn_model, classes, metadata
-from .extract_features import extract_mfcc, zero_crossing_rate, audio_splits
+from .extract_features import extract_mfcc, zero_crossing_rate
+
+# Number of splits
+audio_splits= 13
 
 
 # return the newly created .wav file in the directory
