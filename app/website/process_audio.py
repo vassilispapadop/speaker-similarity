@@ -67,9 +67,11 @@ def predict(clips):
         
         X_tmp = np.hstack((tmp['mfcc'].to_list(),tmp['delta'].to_list(), tmp['zcr'].to_list()))
         X_tmp = np.expand_dims(X_tmp, axis=0)
-        print(X_tmp.shape)
+        # predict
         y_pred = nn_model.predict(X_tmp)
-        print(str(classes[np.argmax(y_pred, axis=1)]))
+        # round probs to 2-decimal places
+        y_pred = np.round(y_pred, 2)
+        print(f'Matched with speaker: {str(classes[np.argmax(y_pred, axis=1)])}')
         speaker = metadata.loc[metadata['VoxCeleb1 ID'] == classes[np.argmax(y_pred, axis=1)][0]]
 
         pred_dict[clip.rsplit('/', 1)[-1]] = {'preds': y_pred, 'speaker': speaker['VGGFace1 ID'].to_string()}
