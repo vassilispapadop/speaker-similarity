@@ -22,6 +22,6 @@ def zero_crossing_rate(clip, splits):
     duration = len(s) / float(fs)
     window = duration / splits
     # extract short term features and plot ZCR and Energy, get only one channel
-    [f, fn] = aF.feature_extraction(s[:,0], fs, int(fs * window), int(fs * window))
+    [f, fn] = aF.feature_extraction(s, fs, int(fs * window), int(fs * window))
     # print(f'size {f[0].shape}')
     return f[0]

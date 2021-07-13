@@ -9,7 +9,7 @@ import sys
 import glob
 import os
 from . import nn_model, classes, metadata
-from .extract_features import extract_mfcc, zero_crossing_rate
+from .extract_features import extract_mfcc, zero_crossing_rate, audio_splits
 
 
 # return the newly created .wav file in the directory
@@ -46,7 +46,8 @@ ydl_opts = {
         'preferredquality': '192'
     }],
     'postprocessor_args': [
-        '-ar', '16000'
+        '-ar', '16000',
+        '-ac', '1'
     ],
     'prefer_ffmpeg': True,
     'keepvideo': True
@@ -62,8 +63,8 @@ def predict(clips):
     pred_dict = {}
     for clip in clips:
         tmp = pd.DataFrame()
-        tmp[['mfcc', 'delta']] = extract_mfcc(clip, 20)
-        tmp[['zcr']] = zero_crossing_rate(clip, 20)
+        tmp[['mfcc', 'delta']] = extract_mfcc(clip, audio_splits)
+        tmp[['zcr']] = zero_crossing_rate(clip, audio_splits)
         
         X_tmp = np.hstack((tmp['mfcc'].to_list(),tmp['delta'].to_list(), tmp['zcr'].to_list()))
         X_tmp = np.expand_dims(X_tmp, axis=0)
