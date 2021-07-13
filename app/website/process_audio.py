@@ -8,7 +8,7 @@ import numpy as np
 import sys
 import glob
 import os
-from . import nn_model, classes
+from . import nn_model, classes, metadata
 from .extract_features import extract_mfcc, zero_crossing_rate
 
 
@@ -69,7 +69,10 @@ def predict(clips):
         X_tmp = np.expand_dims(X_tmp, axis=0)
         print(X_tmp.shape)
         y_pred = nn_model.predict(X_tmp)
-        pred_dict[clip.rsplit('/', 1)[-1]] = {'preds': y_pred, 'speaker': classes[np.argmax(y_pred, axis=1)]}
+        print(str(classes[np.argmax(y_pred, axis=1)]))
+        speaker = metadata.loc[metadata['VoxCeleb1 ID'] == classes[np.argmax(y_pred, axis=1)][0]]
+
+        pred_dict[clip.rsplit('/', 1)[-1]] = {'preds': y_pred, 'speaker': speaker['VGGFace1 ID'].to_string()}
 
     return pred_dict
     
