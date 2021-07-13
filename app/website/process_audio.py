@@ -77,7 +77,7 @@ def predict(clips):
         print(f'Matched with speaker: {str(classes[np.argmax(y_pred, axis=1)])}')
         speaker = metadata.loc[metadata['VoxCeleb1 ID'] == classes[np.argmax(y_pred, axis=1)][0]]
 
-        pred_dict[clip.rsplit('/', 1)[-1]] = {'preds': y_pred, 'speaker': speaker['VGGFace1 ID'].to_string()}
+        pred_dict[clip.rsplit('/', 1)[-1]] = {'preds': y_pred, 'speaker': speaker['VGGFace1 ID'].values[0]}
 
     return pred_dict
     
