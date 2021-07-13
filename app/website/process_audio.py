@@ -69,7 +69,7 @@ def predict(clips):
         X_tmp = np.expand_dims(X_tmp, axis=0)
         print(X_tmp.shape)
         y_pred = nn_model.predict(X_tmp)
-        pred_dict[clip] = {'preds': y_pred, 'speaker': classes[np.argmax(y_pred, axis=1)]}
+        pred_dict[clip.rsplit('/', 1)[-1]] = {'preds': y_pred, 'speaker': classes[np.argmax(y_pred, axis=1)]}
 
     return pred_dict
     

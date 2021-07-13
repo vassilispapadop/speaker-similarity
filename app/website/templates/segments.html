@@ -9,16 +9,16 @@
         <th>Segment</th>
         <th>Probabilities</th>
         <th>Speaker</th>
-        <th>Listen</th>
+        <!-- <th>Listen</th> -->
       </tr>
       {% for key, value in pred_dict.items() %}
       <tr>
          <td class="c2">{{ key }}</td>
          <td class="c3">{{value.preds}}</td>
          <td class="c4"><SPAN>{{value.speaker}}</SPAN></td>
-         <td class="c5"><button type="button" class="bi bi-play" onClick="playSound('{{ key }}')">
+         <!-- <td class="c5"><button type="button" class="bi bi-play" onClick="playSound('{{ key }}')">
           <span aria-hidden="true">&times;</span>
-        </button></td>
+        </button></td> -->
       </tr>
       {% endfor %}
       </table>
