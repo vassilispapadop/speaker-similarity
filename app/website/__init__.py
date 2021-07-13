@@ -25,5 +25,4 @@ def create_app():
     app.register_blueprint(views, url_prefix='/')
     # app.register_blueprint(app_api.api_prefix, url_prefix='/api')
 
-
     return app

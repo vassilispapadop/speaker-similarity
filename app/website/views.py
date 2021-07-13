@@ -16,9 +16,10 @@ def home():
 
         file = download_audio(url)
         print(f'Downloaded file: {file}')
-        segments = create_segments(path = file, segment_duration = 10)
 
+        segments = create_segments(path = file, segment_duration = 5)
         pred_dict = predict(segments)
+        
         return render_template("segments.html", title = file,  pred_dict=pred_dict)
     else:    
         return render_template("home.html")

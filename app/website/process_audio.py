@@ -64,7 +64,8 @@ def predict(clips):
         tmp = pd.DataFrame()
         tmp[['mfcc', 'delta']] = extract_mfcc(clip, 20)
         tmp[['zcr']] = zero_crossing_rate(clip, 20)
-        X_tmp = np.hstack((tmp['mfcc'].to_list(),tmp['delta'].to_list()))
+        
+        X_tmp = np.hstack((tmp['mfcc'].to_list(),tmp['delta'].to_list(), tmp['zcr'].to_list()))
         X_tmp = np.expand_dims(X_tmp, axis=0)
         print(X_tmp.shape)
         y_pred = nn_model.predict(X_tmp)
