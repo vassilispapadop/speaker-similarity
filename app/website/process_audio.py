@@ -14,7 +14,6 @@ from .extract_features import extract_mfcc, zero_crossing_rate
 # Number of splits
 audio_splits= 13
 
-
 # return the newly created .wav file in the directory
 def get_name(path='app/website/downloads/*.wav'):
     list_of_files = glob.glob(path) # * means all if need specific format then *.csv
@@ -53,7 +52,7 @@ ydl_opts = {
         '-ac', '1'
     ],
     'prefer_ffmpeg': True,
-    'keepvideo': True
+    'keepvideo': False
 }
 
 def download_audio(file='http://www.youtube.com/watch?v=BaW_jenozKc'):
