@@ -1,7 +1,7 @@
 # routes of website besides auth page
 from flask import Blueprint, render_template, request, flash, jsonify, send_file
 from .process_audio import download_audio, create_segments, predict
-
+from . import metadata
 import json
 
 PATH_TO_CLIPS = 'downloads/parts/'
@@ -25,7 +25,7 @@ def home():
         
         return render_template("segments.html", title = file.rsplit('/', 1)[-1],  pred_dict=pred_dict)
     else:    
-        return render_template("home.html")
+        return render_template("home.html", speakers=metadata['VGGFace1 ID'].to_dict())
 
 @views.route('/listen', methods=['POST'])
 def listen():
