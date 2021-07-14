@@ -27,6 +27,10 @@ def home():
     else:    
         return render_template("home.html", speakers=metadata['VGGFace1 ID'].to_dict())
 
+@views.route('/celebrities', methods=['GET'])
+def celebrities():
+    return render_template("celebrities.html", speakers=metadata['VGGFace1 ID'].to_dict())
+
 @views.route('/listen', methods=['POST'])
 def listen():
     data = json.loads(request.data)
