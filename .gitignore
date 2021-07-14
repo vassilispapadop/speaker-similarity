@@ -17,3 +17,5 @@ app/__pycache__/extract_features.cpython-39.pyc
 app/website/__pycache__/extract_features.cpython-39.pyc
 app/website/__pycache__/__init__.cpython-39.pyc
 app/website/__pycache__/views.cpython-39.pyc
+app/website/__pycache__/__init__.cpython-39.pyc
+.gitignore
