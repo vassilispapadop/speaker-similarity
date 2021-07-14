@@ -1,6 +1,8 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
     %}
     <h1 align="center">Enter Youtube URL</h1>
+      
+  </br>
     <form method="POST">
       <textarea name="note" id="note" class="form-control">http://www.youtube.com/watch?v=BaW_jenozKc</textarea>
       <br />
@@ -8,4 +10,15 @@
         <button type="submit" class="btn btn-primary">Process</button>
       </div>
     </form>
+    </br>
+    <h1 align="center">Known Celebrities</h1>
+    <ul class="list-group list-group-flush" id="speakers_list">
+      {% for key, value in speakers.items() %}
+      <li class="list-group-item">
+        {{ value }}
+      </li>
+      {% endfor %}
+    </ul>
     {% endblock %}
+    
+    
