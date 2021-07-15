@@ -121,16 +121,11 @@ function createDownloadLink(blob) {
     var li = document.createElement('li');
     var link = document.createElement('a');
 
-    //name of .wav file to use during upload and download (without extendion)
-    // var date = new Date();
-    // date.setMilliseconds(0);
-    // var dateISOString = date.toISOString().replace(".000Z", "Z");
-
     var today = new Date();
     var year = today.getFullYear();
     var mes = today.getMonth()+1;
     var dia = today.getDate();
-    var fecha =dia+"-"+mes+"-"+year+"-"+number_of_recordings;
+    var fecha ='record-' + dia+"-"+mes+"-"+year+"-"+number_of_recordings;
     number_of_recordings +=1
     // console.log(dateISOString);
     var filename = fecha;

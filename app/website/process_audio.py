@@ -2,10 +2,8 @@ from __future__ import unicode_literals
 from librosa.feature.spectral import zero_crossing_rate
 import youtube_dl
 import subprocess
-import librosa
 import pandas as pd
 import numpy as np
-import sys
 import glob
 import os
 from . import nn_model, classes, metadata
