@@ -1,5 +1,10 @@
 # Speech Similarity
 
 ## Simple Jupiter nb
-* Extracts MFCCs and delta1 delta2 derivatives from show audio clips.
+* Extracts MFCCs, delta1 and zero-crossing-rate from audio clips.
 * Simple Neural Network
+
+## Screenshots
+![Alt text](images/home.png?raw=true "Home Page")
+![Alt text](images/predictions.png?raw=true "Predictions")
+![Alt text](images/celebrities.png?raw=true "Celebrities")
