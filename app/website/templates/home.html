@@ -4,7 +4,7 @@
       
   </br>
     <form method="POST">
-      <textarea name="note" id="note" class="form-control">http://www.youtube.com/watch?v=BaW_jenozKc</textarea>
+      <textarea name="yb-url" id="yb-url" class="form-control">http://www.youtube.com/watch?v=BaW_jenozKc</textarea>
       <br />
       <div align="center">
         <button type="submit" class="btn btn-primary">Process</button>
@@ -14,14 +14,18 @@
   </br>
   <h4 align="center">or</h4>
 </br>
-  <h1 align="center">Audio Recording Test</h1>
+  <h1 align="center">Record Audio</h1>
 
-    <p align="center">Talk for 3 seconds, then you will hear your recording played back</p>
-    <script src="index.js"></script>
-  </br>
-    <div align="center">
-      <button id="action" class="btn btn-primary" onclick="handleAction()">Start recording</button>
-    </div>
-    {% endblock %}
+  <div align="center" id="controls">
+   <button id="recordButton" class="btn btn-primary">Record</button>
+   <button id="stopButton" class="btn btn-primary" disabled>Stop</button>
+   <!-- <button id="pauseButton" class="btn btn-primary" disabled>Process</button> -->
+   
+   
+  </div>
+  <div align="center" id="formats">Format: start recording to see sample rate</div>
+  <p align="center" ><strong>Recordings:</strong></p>
+  <ol id="recordingsList"></ol>
+  {% endblock %}
     
     
