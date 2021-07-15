@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import glob
 import os
-from . import nn_model, classes, metadata
+from . import nn_model, gmm_model, classes, metadata
 from .extract_features import extract_mfcc, zero_crossing_rate
 
 # Number of splits
@@ -69,13 +69,19 @@ def predict(clips):
         X_tmp = np.hstack((tmp['mfcc'].to_list(),tmp['delta'].to_list(), tmp['zcr'].to_list()))
         X_tmp = np.expand_dims(X_tmp, axis=0)
         # predict
-        y_pred = nn_model.predict(X_tmp)
+        y_pred_nn = nn_model.predict(X_tmp)
         # round probs to 2-decimal places
-        y_pred = np.round(y_pred, 2)
-        print(f'Matched with speaker: {str(classes[np.argmax(y_pred, axis=1)])}')
-        speaker = metadata.loc[metadata['VoxCeleb1 ID'] == classes[np.argmax(y_pred, axis=1)][0]]
+        y_pred_nn = np.round(y_pred_nn, 2)
+        # print(f'Matched with speaker: {str(classes[np.argmax(y_pred_nn, axis=1)])}')
+        matched_speaker_nn = metadata.loc[metadata['VoxCeleb1 ID'] == classes[np.argmax(y_pred_nn, axis=1)][0]]
 
-        pred_dict[clip.rsplit('/', 1)[-1]] = {'preds': y_pred, 'speaker': speaker['VGGFace1 ID'].values[0]}
+        y_pred_gmm = gmm_model.predict(X_tmp)
+        matched_speaker_gmm = metadata.loc[metadata['VoxCeleb1 ID'] == classes[y_pred_gmm][0]]
+
+        pred_dict[clip.rsplit('/', 1)[-1]] = {'y_pred_nn': y_pred_nn, 
+                                             'matched_speaker_nn': matched_speaker_nn['VGGFace1 ID'].values[0],
+                                              'y_pred_gmm':y_pred_gmm,
+                                             'matched_speaker_gmm':matched_speaker_gmm['VGGFace1 ID'].values[0]}
 
     return pred_dict
     
