@@ -72,11 +72,14 @@ def predict(clips):
         y_pred_nn = nn_model.predict(X_tmp)
         # round probs to 2-decimal places
         y_pred_nn = np.round(y_pred_nn, 2)
-        # print(f'Matched with speaker: {str(classes[np.argmax(y_pred_nn, axis=1)])}')
+        # print(f'Predicting clip: {clip}')
         matched_speaker_nn = metadata.loc[metadata['VoxCeleb1 ID'] == classes[np.argmax(y_pred_nn, axis=1)][0]]
 
         y_pred_gmm = gmm_model.predict(X_tmp)
         matched_speaker_gmm = metadata.loc[metadata['VoxCeleb1 ID'] == classes[y_pred_gmm][0]]
+
+        print(f'NN matched with speaker: {str(classes[np.argmax(y_pred_nn, axis=1)])}\
+            GMM matched with speaker: {str(classes[y_pred_gmm[0]])} ')
 
         pred_dict[clip.rsplit('/', 1)[-1]] = {'y_pred_nn': y_pred_nn, 
                                              'matched_speaker_nn': matched_speaker_nn['VGGFace1 ID'].values[0],
