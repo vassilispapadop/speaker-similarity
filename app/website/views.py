@@ -46,7 +46,7 @@ def upload():
         print(request.files)
         
         f = request.files['audio_data']
-        file = f.filename + '.wav'
+        file = 'app/website/downloads/' + f.filename + '.wav'
         with open(file, 'wb') as audio:
             f.save(audio)
         return jsonify(dict(redirect='segments', title=file))
