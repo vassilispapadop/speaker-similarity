@@ -2,12 +2,21 @@ import librosa
 import pandas as pd
 import numpy as np
 import sys
+import scipy.signal as sps
 
 from pyAudioAnalysis import ShortTermFeatures as aF
 from pyAudioAnalysis import audioBasicIO as aIO
 
+DEFAULT_SAMPLE_RATE = 16000
+
+def download_sample(signal, sr, new_sr):
+    # Resample data
+    number_of_samples = round(len(signal) * float(new_sr) / sr)
+    signal = sps.resample(signal, number_of_samples)
+    return signal
+
 def extract_mfcc(clip, nr_mfcc):
-    signal ,sr = librosa.load(clip)
+    signal ,sr = librosa.load(clip, sr=DEFAULT_SAMPLE_RATE) # downsample all clips to 16KHz
     mfcc_feature = librosa.feature.mfcc(signal, n_mfcc=nr_mfcc, sr=sr, hop_length=256)
     delta_feature = librosa.feature.delta(mfcc_feature)
     
@@ -19,9 +28,11 @@ def extract_mfcc(clip, nr_mfcc):
 def zero_crossing_rate(clip, splits):
     # read machine sound
     fs, s = aIO.read_audio_file(clip)
-    duration = len(s) / float(fs)
+    s = download_sample(s,fs, DEFAULT_SAMPLE_RATE)
+
+    duration = len(s) / float(DEFAULT_SAMPLE_RATE)
     window = duration / splits
     # extract short term features and plot ZCR and Energy, get only one channel
-    [f, fn] = aF.feature_extraction(s, fs, int(fs * window), int(fs * window))
+    [f, fn] = aF.feature_extraction(s, DEFAULT_SAMPLE_RATE, int(DEFAULT_SAMPLE_RATE * window), int(DEFAULT_SAMPLE_RATE * window))
     # print(f'size {f[0].shape}')
     return f[0]
