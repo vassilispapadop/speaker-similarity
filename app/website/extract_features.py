@@ -36,7 +36,12 @@ def extract_mfcc(clip, nr_mfcc):
 def zero_crossing_rate(clip, splits):
     # read machine sound
     fs, s = aIO.read_audio_file(clip)
-    s = download_sample(s,fs, DEFAULT_SAMPLE_RATE)
+
+    # re-sample in case sample rate is different than default
+    # usually when we process recording
+    if fs != DEFAULT_SAMPLE_RATE:
+        print(f'Resampling clip: {clip} with rate: {fs}')
+        s = download_sample(s,fs, DEFAULT_SAMPLE_RATE)
 
     duration = len(s) / float(DEFAULT_SAMPLE_RATE)
     window = duration / splits

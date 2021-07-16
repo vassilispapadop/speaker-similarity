@@ -7,7 +7,7 @@ import numpy as np
 import glob
 import os
 from . import nn_model, gmm_model, classes, metadata
-from .extract_features import extract_mfcc, zero_crossing_rate
+from .extract_features import extract_mfcc, zero_crossing_rate, DEFAULT_SAMPLE_RATE
 
 # Number of splits
 audio_splits= 13
@@ -46,7 +46,7 @@ ydl_opts = {
         'preferredquality': '192'
     }],
     'postprocessor_args': [
-        '-ar', '16000',
+        '-ar', str(DEFAULT_SAMPLE_RATE),
         '-ac', '1'
     ],
     'prefer_ffmpeg': True,
