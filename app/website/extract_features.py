@@ -6,6 +6,7 @@ import scipy.signal as sps
 
 from pyAudioAnalysis import ShortTermFeatures as aF
 from pyAudioAnalysis import audioBasicIO as aIO
+import soundfile as sf
 
 DEFAULT_SAMPLE_RATE = 16000
 
@@ -14,6 +15,13 @@ def download_sample(signal, sr, new_sr):
     number_of_samples = round(len(signal) * float(new_sr) / sr)
     signal = sps.resample(signal, number_of_samples)
     return signal
+
+def get_audio_info(path):
+    f = sf.SoundFile(path)
+    sr = int(f.samplerate)
+    duration = len(f) / f.samplerate
+    
+    return pd.Series([sr, duration])
 
 def extract_mfcc(clip, nr_mfcc):
     signal ,sr = librosa.load(clip, sr=DEFAULT_SAMPLE_RATE) # downsample all clips to 16KHz
