@@ -18,3 +18,4 @@ app/website/__pycache__/views.cpython-39.pyc
 app/website/__pycache__/__init__.cpython-39.pyc
 .gitignore
 app/website/__pycache__/__init__.cpython-39.pyc
+saved_models/gmm/*.sav
