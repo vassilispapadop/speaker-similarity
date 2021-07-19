@@ -5,8 +5,8 @@ import subprocess
 import pandas as pd
 import numpy as np
 import glob
-import os
-from . import nn_model, gmm_model, classes, metadata
+import os, re
+from . import nn_model, gmm_models, gmm_files, classes, metadata
 from .extract_features import extract_mfcc, zero_crossing_rate, DEFAULT_SAMPLE_RATE
 
 # Number of splits
@@ -59,6 +59,18 @@ def download_audio(file='http://www.youtube.com/watch?v=BaW_jenozKc'):
     
     return get_name()
 
+
+
+def predict_gmm(features):
+    unique_speakers   = [fname.split("/")[-1].split(".gmm")[0] for fname in gmm_files]
+    log_likelihood = np.zeros(len(gmm_models)) 
+    for i, gmm in enumerate(gmm_models):
+        scores = np.array(gmm.score(features))
+        log_likelihood[i] = scores.sum()
+
+    y_pred = np.argmax(log_likelihood)
+    return f'id{re.findall("[0-9]+", unique_speakers[y_pred])[0]}'
+
 def predict(clips):
     pred_dict = {}
     for clip in clips:
@@ -66,25 +78,25 @@ def predict(clips):
         tmp[['mfcc', 'delta']] = extract_mfcc(clip, audio_splits)
         tmp[['zcr']] = zero_crossing_rate(clip, audio_splits)
         
-        X_tmp = np.hstack((tmp['mfcc'].to_list(),tmp['delta'].to_list(), tmp['zcr'].to_list()))
-        X_tmp = np.expand_dims(X_tmp, axis=0)
+        features = np.hstack((tmp['mfcc'].to_list(),tmp['delta'].to_list(), tmp['zcr'].to_list()))
+        features = np.expand_dims(features, axis=0)
         # predict
-        y_pred_nn = nn_model.predict(X_tmp)
+        y_pred_nn = nn_model.predict(features)
         # round probs to 2-decimal places
         y_pred_nn = np.round(y_pred_nn, 2)
         # print(f'Predicting clip: {clip}')
         matched_speaker_nn = metadata.loc[metadata['VoxCeleb1 ID'] == classes[np.argmax(y_pred_nn, axis=1)][0]]
 
-        y_pred_gmm = gmm_model.predict(X_tmp)
-        matched_speaker_gmm = metadata.loc[metadata['VoxCeleb1 ID'] == classes[y_pred_gmm][0]]
+        y_pred_gmm = predict_gmm(features)
+        matched_speaker_gmm = metadata.loc[metadata['VoxCeleb1 ID'] == y_pred_gmm]
 
         print(f'NN matched with speaker: {str(classes[np.argmax(y_pred_nn, axis=1)])}\
-            GMM matched with speaker: {str(classes[y_pred_gmm[0]])} ')
+            GMM matched with speaker: {y_pred_gmm}')
 
         pred_dict[clip.rsplit('/', 1)[-1]] = {'y_pred_nn': y_pred_nn, 
                                              'matched_speaker_nn': matched_speaker_nn['VGGFace1 ID'].values[0],
                                               'y_pred_gmm':y_pred_gmm,
-                                             'matched_speaker_gmm':matched_speaker_gmm['VGGFace1 ID'].values[0]}
+                                              'matched_speaker_gmm': matched_speaker_gmm['VGGFace1 ID'].values[0] }
 
     return pred_dict
     

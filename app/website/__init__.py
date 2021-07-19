@@ -11,14 +11,17 @@ import pickle
 cwd = os.getcwd()
 saved_models_path = os.path.join(cwd,'saved_models/')
 
-# Load speakers nn model
-
+# Load Deep Neural Network model
 NN_MODEL_NAME = 'speakers_classification.hdf5'
 nn_model = keras.models.load_model(saved_models_path + NN_MODEL_NAME)
 
-# Load Gaussian Mixture Model
-GMM_MODEL_NAME = 'gaussian_mixture_model.sav'
-gmm_model = pickle.load(open(saved_models_path + GMM_MODEL_NAME, 'rb'))
+# Load Gaussian Mixture Models
+gmm_files = [os.path.join('saved_models/gmm/',fname) for fname in 
+              os.listdir('saved_models/gmm/') if fname.endswith('.sav')]
+
+#Load the Gaussian gender Models
+gmm_models = [pickle.load(open(fname,'rb')) for fname in gmm_files]
+
 
 # Load classes file, order of speakers is preserved
 classes = np.load(saved_models_path + 'classes.npy', allow_pickle=True)

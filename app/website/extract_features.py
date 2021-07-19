@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import sys
 import scipy.signal as sps
+from sklearn.preprocessing import StandardScaler
 
 from pyAudioAnalysis import ShortTermFeatures as aF
 from pyAudioAnalysis import audioBasicIO as aIO
@@ -31,6 +32,10 @@ def extract_mfcc(clip, nr_mfcc):
     mfcc_feature = np.mean(mfcc_feature.T,axis=0)
     delta_feature = np.mean(delta_feature.T, axis=0)
 
+    # # Standardization
+    # mfcc_feature = StandardScaler().fit_transform(mfcc_feature.reshape(1,-1))
+    # delta_feature = StandardScaler().fit_transform(delta_feature.reshape(1,-1))
+
     return pd.Series([mfcc_feature, delta_feature])
 
 def zero_crossing_rate(clip, splits):
@@ -48,4 +53,7 @@ def zero_crossing_rate(clip, splits):
     # extract short term features and plot ZCR and Energy, get only one channel
     [f, fn] = aF.feature_extraction(s, DEFAULT_SAMPLE_RATE, int(DEFAULT_SAMPLE_RATE * window), int(DEFAULT_SAMPLE_RATE * window))
     # print(f'size {f[0].shape}')
+
+    # Standardization
+    # f = StandardScaler().fit_transform(f[0].reshape(1,-1))
     return f[0]
