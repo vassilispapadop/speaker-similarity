@@ -7,6 +7,7 @@ pip install -r requirements.txt
 ## Simple Jupiter nb
 * Extracts MFCCs, delta1 and zero-crossing-rate from audio clips.
 * Simple Neural Network
+* Gaussian Mixture Model
 
 ## Mel-frequency cepstral coefficients (MFCCs)
 Mel-frequency cepstral coefficients (MFCCs) are coefficients that collectively make up an MFC. They are derived from a type of cepstral representation of the audio clip (a nonlinear "spectrum-of-a-spectrum"). The difference between the cepstrum and the mel-frequency cepstrum is that in the MFC, the frequency bands are equally spaced on the mel scale, which approximates the human auditory system's response more closely than the linearly-spaced frequency bands used in the normal spectrum. This frequency warping can allow for better representation of sound, for example, in audio compression.
