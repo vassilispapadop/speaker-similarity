@@ -9,3 +9,4 @@ scikit-learn
 pyAudioAnalysis
 librosa
 Flask
+youtube-dl

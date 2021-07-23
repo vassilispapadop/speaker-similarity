@@ -37,7 +37,12 @@ M-step: for each cluster, update its location, normalization, and shape based on
 
 The result of this is that each cluster is associated not with a hard-edged sphere, but with a smooth Gaussian model. Just as in the k-means expectation–maximization approach, this algorithm can sometimes miss the globally optimal solution, and thus in practice multiple random initializations are used.
 
-## Screenshots
+## App
+We used Flask micro-webframework to build a basic UI. The user can paste a youtube url and the server will download **audio-only** with youtube-dl library. Alternatively, 
+he/she can record and upload a recording using webcamera's microphone.
+
+
+### Screenshots
 ![Alt text](images/home.png?raw=true "Home Page")
 ![Alt text](images/predictions.png?raw=true "Predictions")
 ![Alt text](images/celebrities.png?raw=true "Celebrities")

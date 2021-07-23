@@ -29,7 +29,7 @@ def home():
         else:
             file = upload
 
-        pred_dict = make_predict(file=file, segment_duration=5)
+        pred_dict = make_predict(file=file, segment_duration=10)
         return render_template("segments.html", title = file.rsplit('/', 1)[-1],  pred_dict=pred_dict)
     else:    
         return render_template("home.html")
