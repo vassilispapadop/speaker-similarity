@@ -1,4 +1,8 @@
-# Speech Similarity
+# Speaker Similarity
+
+```python
+pip install -r requirements.txt
+```
 
 ## Simple Jupiter nb
 * Extracts MFCCs, delta1 and zero-crossing-rate from audio clips.
