@@ -1,5 +1,5 @@
 # routes of website besides auth page
-from flask import Blueprint, render_template, request,redirect, flash, jsonify, make_response
+from flask import Blueprint, render_template, request, redirect, flash, jsonify, make_response
 from .process_audio import download_audio, create_segments, predict
 from . import metadata
 import os
@@ -9,14 +9,16 @@ PATH_TO_CLIPS = 'downloads/parts/'
 
 views = Blueprint('views', __name__)
 
+
 def make_predict(file, segment_duration):
     # crops file into segment_duration-seconds chunks
-    segments = create_segments(path = file, segment_duration = segment_duration)
+    segments = create_segments(path=file, segment_duration=segment_duration)
     pred_dict = predict(segments)
 
     return pred_dict
 
-@views.route('/', methods=['GET','POST'])
+
+@views.route('/', methods=['GET', 'POST'])
 def home():
     segments = []
     if request.method == 'POST':
@@ -29,10 +31,10 @@ def home():
         else:
             file = upload
 
-        segment_duration=5
+        segment_duration = 2
         pred_dict = make_predict(file=file, segment_duration=segment_duration)
-        return render_template("segments.html", title = file.rsplit('/', 1)[-1],  pred_dict=pred_dict, segment_duration=segment_duration)
-    else:    
+        return render_template("segments.html", title=file.rsplit('/', 1)[-1],  pred_dict=pred_dict, segment_duration=segment_duration)
+    else:
         return render_template("home.html")
 
 
@@ -45,12 +47,11 @@ def celebrities():
 def upload():
     if request.method == "POST":
         print(request.files)
-        
+
         f = request.files['audio_data']
         file = 'app/website/downloads/' + f.filename + '.wav'
         with open(file, 'wb') as audio:
             f.save(audio)
         return jsonify(dict(redirect='segments', title=file))
-        
-   
+
     return render_template("home.html")
