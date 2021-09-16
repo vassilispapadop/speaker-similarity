@@ -10,3 +10,4 @@ pyAudioAnalysis
 librosa
 Flask
 youtube-dl
+eyed3
