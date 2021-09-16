@@ -11,3 +11,4 @@ librosa
 Flask
 youtube-dl
 eyed3
+pydud
