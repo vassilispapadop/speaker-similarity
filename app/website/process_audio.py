@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-from librosa.feature.spectral import zero_crossing_rate
+# from librosa.feature.spectral import zero_crossing_rate
 import youtube_dl
 import subprocess
 import pandas as pd
@@ -8,7 +8,7 @@ import glob
 import os
 import re
 from . import nn_model, gmm_models, gmm_files, classes, metadata
-from .extract_features import extract_mfcc, zero_crossing_rate, DEFAULT_SAMPLE_RATE
+from .extract_features import extract_mfcc, zero_crossing_rate, extract_lpc, DEFAULT_SAMPLE_RATE
 
 # Number of splits
 audio_splits = 13
@@ -59,7 +59,7 @@ ydl_opts = {
 }
 
 
-def download_audio(file='http://www.youtube.com/watch?v=BaW_jenozKc'):
+def download_audio(file='https://www.youtube.com/watch?v=0GgHhOqUrUw&ab_channel=TeamCoco'):
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([file])
 
@@ -83,10 +83,12 @@ def predict(clips):
     for clip in clips:
         tmp = pd.DataFrame()
         tmp[['mfcc', 'delta']] = extract_mfcc(clip, audio_splits)
-        tmp[['zcr']] = zero_crossing_rate(clip, audio_splits)
+        # tmp[['zcr']] = zero_crossing_rate(clip, audio_splits)
+        zcr = zero_crossing_rate(clip, audio_splits)        
+        tmp[['lpc']] = extract_lpc(clip, audio_splits)
 
         features = np.hstack(
-            (tmp['mfcc'].to_list(), tmp['delta'].to_list(), tmp['zcr'].to_list()))
+            (tmp['mfcc'].to_list(), tmp['delta'].to_list(), zcr, tmp['lpc'].to_list()))
         features = np.expand_dims(features, axis=0)
         # predict
         y_pred_nn = nn_model.predict(features)

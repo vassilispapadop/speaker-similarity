@@ -20,6 +20,18 @@ stopButton.addEventListener("click", stopRecording);
 function startRecording() {
     console.log("recordButton clicked");
 
+
+    // navigator.mediaDevices.getUserMedia(constraints)
+    // .then(function(stream) {
+    // /* use the stream */
+    //     console.log('success')
+    // })
+    // .catch(function(err) {
+    // /* handle the error */
+    //     console.log(err)
+    // });
+    // return
+
     /*
         Simple constraints object, for more advanced audio features see
         https://addpipe.com/blog/audio-constraints-getusermedia/

@@ -2,8 +2,6 @@
 from flask import Blueprint, render_template, request, redirect, flash, jsonify, make_response
 from .process_audio import download_audio, create_segments, predict
 from . import metadata
-import os
-import json
 
 PATH_TO_CLIPS = 'downloads/parts/'
 
@@ -20,7 +18,6 @@ def make_predict(file, segment_duration):
 
 @views.route('/', methods=['GET', 'POST'])
 def home():
-    segments = []
     if request.method == 'POST':
         file = None
         url = request.form.get('yb-url')

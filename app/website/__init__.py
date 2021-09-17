@@ -1,6 +1,4 @@
 from flask import Flask
-from os import path
-import tensorflow as tf
 from tensorflow import keras
 import os
 import numpy as np
